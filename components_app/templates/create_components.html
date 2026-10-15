@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Criar Componente{% endblock %}
+{% block subtitle %}Criar Componente{% endblock %}
+
+{% block content %}
+
+    <form method="POST" action="{% url 'components:create_component' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Criar</button>
+    </form>
+
+    <p><a href="{% url 'components:list_components' %}">Voltar para a lista de componentes</a></p>
+{% endblock %}

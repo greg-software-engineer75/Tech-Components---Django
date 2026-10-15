@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Componente{% endblock %}
+{% block subtitle %}Editar Componente{% endblock %}
+
+{% block content %}
+    
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvar alterações</button>
+    </form>
+
+    <p><a href="{% url 'components:list_components' %}">Voltar para a lista de componentes</a></p>
+{% endblock %}

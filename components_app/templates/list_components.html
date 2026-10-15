@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Tech Produtos{% endblock %}
+{% block subtitle %}Lista de Componentes{% endblock %}
+
+{% block content %}
+   
+    <a href="{% url 'components:create_component' %}">Adicionar Componente</a>
+
+    <ul class = "component-list">
+        {% for component in page_obj %}
+            <li>
+                <div class="components-card">
+                    <p>---------------------------------------------------------</p>
+                    <strong>Nome:</strong> {{ component.name }}<br>
+                    <strong>Marca:</strong> {{ component.brand }}<br>
+                    <strong>Descrição:</strong> {{ component.description|default:"-----" }}<br>
+                    <strong>Preço:</strong> {{ component.price }}<br>
+                    <strong>Cadastrado por:</strong> {{ component.user }}<br>
+                </div>
+
+                <div class="component-actions">
+                    <br><form method="GET" action="{% url 'components:edit_component' component.id %}">
+                        <button type="submit">Editar</button>
+                    </form>
+
+                    <br><form action="{% url 'components:delete_component' component.id %}" method="POST" onsubmit="return confirm('Deseja excluir este componente?');">
+                        {% csrf_token %}
+                        <button type="submit">Excluir</button>
+                    </form>
+                </div>
+            </li>
+        {% empty %}
+        <li>Nenhum component encontrado.</li>
+        {% endfor %}
+    </ul>
+
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+    {% endif %}
+
+    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages}}<br>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Próxima</a><br>
+    {% endif %}
+
+    <br><form action="{% url 'components:logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Sair</button>
+    </form>
+
+{% endblock %}
